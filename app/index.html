@@ -11,9 +11,12 @@
     <header id="header"></header>
 
     <section id="content"></section>
-
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
+      import { MovieCard } from "./component/MovieCard/script.js";
+      import { MovieDetail } from "./component/MovieDetail/script.js";
+      import { MovieCategory } from "./component/MovieCategory/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
 
       // Controleur
       // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
@@ -26,8 +29,20 @@
         );
       };
 
-      C.start = function () {
+      C.handlerHome = async function () {
+        let categories = await DataMovie.requestMovies();
+        V.renderMovies(categories);
+      };
+
+      C.handlerDetail = async function (movieId) {
+        let movie = await DataMovie.requestMovieDetails(movieId);
+        V.renderMovieDetail(movie);
+      };
+
+      C.start = async function () {
         V.renderNavBar("C.handlerAbout()");
+        let categories = await DataMovie.requestMovies();
+        V.renderMovies(categories);
       };
 
       // Vue (contient tout ce qui est relatif à l'affichage)
@@ -43,6 +58,28 @@
       V.renderNavBar = function (hAbout) {
         let header = document.querySelector("#header");
         header.innerHTML = NavBar.format(hAbout);
+      };
+
+      V.renderMovies = function (categories) {
+        let imageUrl = DataMovie.getHostUrl() + "server/images/";
+        
+        if (categories.length === 0) {
+          document.querySelector("#content").innerHTML = '<div class="no-movies">Aucun film disponible pour le moment</div>';
+        } else {
+          let categoriesHTML = MovieCategory.formatMany(categories, imageUrl);
+          document.querySelector("#content").innerHTML = categoriesHTML;
+        }
+      };
+
+      V.renderMovieDetail = function (movie) {
+        let imageUrl = DataMovie.getHostUrl() + "server/images/";
+        
+        if (!movie) {
+          document.querySelector("#content").innerHTML = '<div class="error-message">Film introuvable</div>';
+        } else {
+          let movieHTML = MovieDetail.format(movie, imageUrl);
+          document.querySelector("#content").innerHTML = movieHTML;
+        }
       };
 
       C.start(); // Démarre l'application

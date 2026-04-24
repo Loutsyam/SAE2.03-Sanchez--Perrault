@@ -1,0 +1,57 @@
+/* Admin Page Styling */
+
+body {
+  background: white;
+  color: #333;
+  font-family: var(--ff-sans);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  display: none;
+}
+
+nav {
+  background: #333;
+  border-bottom: 1px solid #999;
+  border-top: none;
+  padding: 1.5rem 2rem;
+  box-shadow: none;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 900;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: none;
+  font-family: "Georgia", serif;
+}
+
+#log {
+  margin-top: 2rem;
+}
+
+#addMovie {
+  margin-top: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav {
+    padding: 1rem;
+  }
+
+  nav h1 {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+  }
+}

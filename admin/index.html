@@ -7,23 +7,44 @@
     <link rel="stylesheet" href="./css/base.css" />
   </head>
   <body>
+    <nav>
+      <h1>ADMIN</h1>
+    </nav>
+
     <section id="log"></section>
+    <section id="addMovie"></section>
 
     <script type="module">
+      import { MovieForm } from "./component/MovieForm/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
       import { Log } from "./component/Log/script.js";
 
       window.C = {};
 
-      C.start = function () {
-        V.renderLog("Démarrage de l'application");
-      };
+      C.handlerAddMovie = async function(){
+        let form = document.querySelector('.addMovie__form');
+        let fd = new FormData(form);
+        V.renderLog("Envoi du formulaire...");
+        let res = await DataMovie.add(fd);
+        V.renderLog(res);
+      }
+
+      C.start = function(){
+        V.renderLog("Démarrage");
+        V.renderMovie("C.handlerAddMovie()");
+      }
 
       window.V = {};
 
-      V.renderLog = function (txt) {
+      V.renderMovie = function(handler){
+        let content = document.querySelector("#addMovie");
+        content.innerHTML = MovieForm.format(handler);
+      }
+
+      V.renderLog = function(txt){
         let content = document.querySelector("#log");
         content.innerHTML = Log.format(txt);
-      };
+      }
 
       C.start();
     </script>

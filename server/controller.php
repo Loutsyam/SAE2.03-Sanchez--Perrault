@@ -23,5 +23,62 @@ require("model.php");
 
 function readMoviesController(){
     $movies = getAllMovies();
-    return $movies;
+    
+    // Grouper les films par catégorie
+    $moviesByCategory = array();
+    foreach ($movies as $movie) {
+        $category = $movie->category ? $movie->category : 'Sans catégorie';
+        if (!isset($moviesByCategory[$category])) {
+            $moviesByCategory[$category] = array();
+        }
+        $moviesByCategory[$category][] = $movie;
+    }
+    
+    // Convertir en tableau indexé pour un meilleur format JSON
+    $result = array();
+    foreach ($moviesByCategory as $category => $films) {
+        $result[] = array(
+            'category' => $category,
+            'movies' => $films
+        );
+    }
+    
+    return $result;
+}
+
+function addMovieController(){
+    // Récupérer les données du formulaire
+    $fields = ['title', 'director', 'year', 'duration', 'description', 'category', 'image', 'trailer', 'ageRestriction'];
+    $data = [];
+    
+    foreach ($fields as $field) {
+        $data[$field] = isset($_POST[$field]) ? trim($_POST[$field]) : '';
+        if (empty($data[$field])) {
+            return false;
+        }
+    }
+    
+    // Ajouter le film à la base de données
+    $result = insertMovie(
+        $data['title'], $data['director'], $data['year'], $data['duration'],
+        $data['description'], $data['category'], $data['image'], $data['trailer'], $data['ageRestriction']
+    );
+    
+    return $result ? "Le film " . $data['title'] . " a été ajouté avec succès" : false;
+}
+
+function readMovieDetailController(){
+    // Récupérer l'ID du film depuis les paramètres de la requête
+    $movieId = isset($_REQUEST['id']) ? trim($_REQUEST['id']) : '';
+    
+    // Valider que l'ID est fourni et est un nombre
+    if (empty($movieId) || !is_numeric($movieId)) {
+        return false;
+    }
+    
+    // Récupérer les détails du film
+    $movie = getMovieDetails($movieId);
+    
+    // Retourner le film (peut être false si le film n'existe pas)
+    return $movie;
 }
