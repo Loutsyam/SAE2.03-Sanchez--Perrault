@@ -82,3 +82,11 @@ function readMovieDetailController(){
     // Retourner le film (peut être false si le film n'existe pas)
     return $movie;
 }
+
+function readCategoriesController(){
+    // Récupérer toutes les catégories
+    $categories = getAllCategories();
+    
+    // Retourner les catégories
+    return $categories;
+}

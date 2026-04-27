@@ -29,16 +29,17 @@
         V.renderLog(res);
       }
 
-      C.start = function(){
+      C.start = async function(){
         V.renderLog("Démarrage");
-        V.renderMovie("C.handlerAddMovie()");
+        let categories = await DataMovie.requestCategories();
+        V.renderMovie(categories, "C.handlerAddMovie()");
       }
 
       window.V = {};
 
-      V.renderMovie = function(handler){
+      V.renderMovie = function(categories, handler){
         let content = document.querySelector("#addMovie");
-        content.innerHTML = MovieForm.format(handler);
+        content.innerHTML = MovieForm.format(handler, categories);
       }
 
       V.renderLog = function(txt){

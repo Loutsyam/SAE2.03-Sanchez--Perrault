@@ -87,3 +87,17 @@ function getMovieDetails($movieId){
     $res = $stmt->fetch(PDO::FETCH_OBJ);
     return $res; // Retourne le résultat (peut être false si le film n'existe pas)
 }
+
+function getAllCategories(){
+    // Connexion à la base de données
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    // Requête SQL pour récupérer toutes les catégories
+    $sql = "SELECT id, name FROM Category ORDER BY name";
+    // Prépare la requête SQL
+    $stmt = $cnx->prepare($sql);
+    // Exécute la requête SQL
+    $stmt->execute();
+    // Récupère les résultats sous forme d'objets
+    $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+    return $res; // Retourne les catégories
+}
