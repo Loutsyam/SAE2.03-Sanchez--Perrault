@@ -23,10 +23,6 @@
   display: block;
 }
 
-.movie-card:hover .movie-card__image {
-  /* pas d'animation */
-}
-
 .movie-card__title {
   position: static;
   margin: 0;

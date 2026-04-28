@@ -1,0 +1,18 @@
+<div class="addProfile">
+    <h4 class="addProfile__title">Ajouter un profil utilisateur</h4>
+    <form class="addProfile__form">
+        <input required type="text" name="name" placeholder="Nom du profil">
+        <input type="text" name="avatar" placeholder="Image / Avatar (facultatif)">
+        
+        <select name="minAge" required>
+            <option value="">-- Restriction d'âge --</option>
+            <option value="0">Tous publics (0+)</option>
+            <option value="6">6+</option>
+            <option value="12">12+</option>
+            <option value="16">16+</option>
+            <option value="18">18+</option>
+        </select>
+
+        <input onclick="{{handler}}" type="button" value="Ajouter" name="todo">
+    </form>
+</div>

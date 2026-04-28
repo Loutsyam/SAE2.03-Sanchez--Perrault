@@ -33,21 +33,19 @@ function getAllMovies(){
     return $res; // Retourne les résultats
 }
 
-function insertMovie($title, $director, $year, $duration, $description, $category, $image, $trailer, $ageRestriction){
+function insertMovie($title, $director, $year, $duration, $description, $categoryId, $image, $trailer, $ageRestriction){
     // Connexion à la base de données
     $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
     
-    // Récupérer l'id de la catégorie par son nom
-    $sqlCategory = "SELECT id FROM Category WHERE name = :category";
+    // Valider que l'ID de la catégorie existe
+    $sqlCategory = "SELECT id FROM Category WHERE id = :categoryId";
     $stmtCategory = $cnx->prepare($sqlCategory);
-    $stmtCategory->execute(array(':category' => $category));
+    $stmtCategory->execute(array(':categoryId' => $categoryId));
     $categoryResult = $stmtCategory->fetch(PDO::FETCH_OBJ);
     
     if (!$categoryResult) {
         return false;
     }
-    
-    $categoryId = $categoryResult->id;
     $minAge = intval($ageRestriction);
     
     // Requête SQL pour insérer un film
@@ -100,4 +98,48 @@ function getAllCategories(){
     // Récupère les résultats sous forme d'objets
     $res = $stmt->fetchAll(PDO::FETCH_OBJ);
     return $res; // Retourne les catégories
+}
+
+/**
+ * Récupère tous les profils utilisateurs de la base de données.
+ * @return array Un tableau d'objets contenant les profils utilisateurs.
+ */
+function getAllProfiles(){
+    // Connexion à la base de données
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    // Requête SQL pour récupérer tous les profils
+    $sql = "SELECT id, name, avatar, min_age FROM UserProfile ORDER BY name";
+    // Prépare la requête SQL
+    $stmt = $cnx->prepare($sql);
+    // Exécute la requête SQL
+    $stmt->execute();
+    // Récupère les résultats sous forme d'objets
+    $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+    return $res; // Retourne les profils
+}
+
+/**
+ * Insère un nouveau profil utilisateur dans la base de données.
+ * @param string $name Le nom du profil.
+ * @param string $avatar Le fichier avatar/image (facultatif).
+ * @param int $minAge La restriction d'âge pour le profil.
+ * @return bool true si l'insertion a réussi, false sinon.
+ */
+function insertProfile($name, $avatar, $minAge){
+    // Connexion à la base de données
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    
+    // Requête SQL pour insérer un profil
+    $sql = "INSERT INTO UserProfile (name, avatar, min_age) 
+            VALUES (:name, :avatar, :minAge)";
+    
+    // Prépare et exécute la requête SQL
+    $stmt = $cnx->prepare($sql);
+    $result = $stmt->execute(array(
+        ':name' => $name,
+        ':avatar' => $avatar,
+        ':minAge' => $minAge
+    ));
+    
+    return $result;
 }

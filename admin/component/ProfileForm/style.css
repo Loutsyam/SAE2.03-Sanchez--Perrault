@@ -1,4 +1,4 @@
-.addMovie {
+.addProfile {
   padding: 3.5rem 2.5rem;
   max-width: 100%;
   margin: 0;
@@ -10,11 +10,11 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.addMovie::before {
+.addProfile::before {
   display: none;
 }
 
-.addMovie__title {
+.addProfile__title {
   margin: 0 0 2.5rem 0;
   font-size: 1.8rem;
   font-weight: 900;
@@ -25,11 +25,11 @@
   z-index: 1;
 }
 
-.addMovie__title::after {
+.addProfile__title::after {
   display: none;
 }
 
-.addMovie__form {
+.addProfile__form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -37,9 +37,9 @@
   z-index: 1;
 }
 
-.addMovie__form input,
-.addMovie__form textarea,
-.addMovie__form select {
+.addProfile__form input,
+.addProfile__form textarea,
+.addProfile__form select {
   padding: 1rem 1.2rem;
   background: white;
   border: 1.5px solid #ddd;
@@ -50,26 +50,26 @@
   transition: all 0.2s ease;
 }
 
-.addMovie__form input::placeholder,
-.addMovie__form textarea::placeholder {
+.addProfile__form input::placeholder,
+.addProfile__form textarea::placeholder {
   color: #aaa;
 }
 
-.addMovie__form input:focus,
-.addMovie__form textarea:focus,
-.addMovie__form select:focus {
+.addProfile__form input:focus,
+.addProfile__form textarea:focus,
+.addProfile__form select:focus {
   outline: none;
   border-color: #666;
   background: white;
   box-shadow: 0 0 0 3px rgba(102, 102, 102, 0.1);
 }
 
-.addMovie__form textarea {
+.addProfile__form textarea {
   resize: vertical;
   min-height: 120px;
 }
 
-.addMovie__form input[type="button"] {
+.addProfile__form input[type="button"] {
   background: linear-gradient(135deg, #666 0%, #555 100%);
   color: white;
   font-weight: 800;
@@ -85,12 +85,12 @@
   box-shadow: 0 2px 8px rgba(102, 102, 102, 0.2);
 }
 
-.addMovie__form input[type="button"]:hover {
+.addProfile__form input[type="button"]:hover {
   background: linear-gradient(135deg, #555 0%, #444 100%);
   box-shadow: 0 4px 12px rgba(102, 102, 102, 0.3);
   transform: translateY(-2px);
 }
 
-.addMovie__form input[type="button"]:active {
+.addProfile__form input[type="button"]:active {
   transform: translateY(0);
 }

@@ -12,4 +12,13 @@ DataMovie.add = async function(fdata){
     return data;
 }
 
+DataMovie.requestCategories = async function(){
+    // Envoie une requête HTTP au serveur pour obtenir les catégories
+    let answer = await fetch(HOST_URL + "server/script.php?todo=readcategories");
+    // Extrait les données au format JSON de la réponse
+    let data = await answer.json();
+    // Retourne les données des catégories
+    return data;
+}
+
 export {DataMovie};

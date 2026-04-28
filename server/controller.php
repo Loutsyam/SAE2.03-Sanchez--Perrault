@@ -24,47 +24,42 @@ require("model.php");
 function readMoviesController(){
     $movies = getAllMovies();
     
-    // Grouper les films par catégorie
-    $moviesByCategory = array();
-    foreach ($movies as $movie) {
-        $category = $movie->category ? $movie->category : 'Sans catégorie';
-        if (!isset($moviesByCategory[$category])) {
-            $moviesByCategory[$category] = array();
-        }
-        $moviesByCategory[$category][] = $movie;
-    }
+    // Grouper les films par catégorie avec array_reduce
+    $grouped = array_reduce($movies, function($acc, $movie) {
+        $cat = $movie->category ?: 'Sans catégorie';
+        $acc[$cat][] = $movie;
+        return $acc;
+    }, []);
     
-    // Convertir en tableau indexé pour un meilleur format JSON
-    $result = array();
-    foreach ($moviesByCategory as $category => $films) {
-        $result[] = array(
-            'category' => $category,
-            'movies' => $films
-        );
-    }
-    
-    return $result;
+    // Convertir en tableau indexé avec array_map
+    return array_map(fn($cat, $films) => ['category' => $cat, 'movies' => $films], array_keys($grouped), array_values($grouped));
 }
 
 function addMovieController(){
-    // Récupérer les données du formulaire
-    $fields = ['title', 'director', 'year', 'duration', 'description', 'category', 'image', 'trailer', 'ageRestriction'];
-    $data = [];
+    /* Lecture des données de formulaire
+       On ne vérifie pas si les données sont valides, on suppose que le client les a déjà
+       vérifiées avant de les envoyer 
+    */
+    $title = $_POST['title'];
+    $director = $_POST['director'];
+    $year = $_POST['year'];
+    $duration = $_POST['duration'];
+    $description = $_POST['description'];
+    $categoryId = $_POST['category'];
+    $image = $_POST['image'];
+    $trailer = $_POST['trailer'];
+    $ageRestriction = $_POST['ageRestriction'];
     
-    foreach ($fields as $field) {
-        $data[$field] = isset($_POST[$field]) ? trim($_POST[$field]) : '';
-        if (empty($data[$field])) {
-            return false;
-        }
+    // Insertion du film à l'aide de la fonction insertMovie décrite dans model.php
+    $ok = insertMovie($title, $director, $year, $duration, $description, $categoryId, $image, $trailer, $ageRestriction);
+    
+    // $ok est true ou false selon le résultat de l'insertion dans la BDD
+    if ($ok != false){
+        return "Le film " . $title . " a été ajouté avec succès";
     }
-    
-    // Ajouter le film à la base de données
-    $result = insertMovie(
-        $data['title'], $data['director'], $data['year'], $data['duration'],
-        $data['description'], $data['category'], $data['image'], $data['trailer'], $data['ageRestriction']
-    );
-    
-    return $result ? "Le film " . $data['title'] . " a été ajouté avec succès" : false;
+    else{
+        return false;
+    }
 }
 
 function readMovieDetailController(){
@@ -89,4 +84,41 @@ function readCategoriesController(){
     
     // Retourner les catégories
     return $categories;
+}
+
+/**
+ * Contrôleur pour lire tous les profils utilisateurs.
+ * @return array Les profils utilisateurs ou false en cas d'erreur.
+ */
+function readProfilesController(){
+    // Récupérer tous les profils
+    $profiles = getAllProfiles();
+    
+    // Retourner les profils
+    return $profiles;
+}
+
+/**
+ * Contrôleur pour ajouter un nouveau profil utilisateur.
+ * @return string|false Un message de confirmation ou false en cas d'erreur.
+ */
+function addProfileController(){
+    /* Lecture des données de formulaire
+       On ne vérifie pas si les données sont valides, on suppose que le client les a déjà
+       vérifiées avant de les envoyer 
+    */
+    $name = $_POST['name'];
+    $avatar = $_POST['avatar'];
+    $minAge = $_POST['minAge'];
+    
+    // Insertion du profil à l'aide de la fonction insertProfile décrite dans model.php
+    $ok = insertProfile($name, $avatar, $minAge);
+    
+    // $ok est true ou false selon le résultat de l'insertion dans la BDD
+    if ($ok != false){
+        return "Le profil " . $name . " a été ajouté avec succès";
+    }
+    else{
+        return false;
+    }
 }

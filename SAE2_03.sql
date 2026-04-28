@@ -24,6 +24,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `UserProfile`
+--
+
+CREATE TABLE `UserProfile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `min_age` int(11) DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `UserProfile`
+--
+
+INSERT INTO `UserProfile` (`id`, `name`, `avatar`, `min_age`) VALUES
+(1, 'Enfants', 'avatar_enfants.jpg', 0),
+(2, 'Ados', 'avatar_ados.jpg', 12),
+(3, 'Adultes', 'avatar_adultes.jpg', 16);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `Category`
 --
 
@@ -83,6 +106,12 @@ INSERT INTO `Movie` (`id`, `name`, `year`, `length`, `description`, `director`, 
 --
 
 --
+-- Index pour la table `UserProfile`
+--
+ALTER TABLE `UserProfile`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `Category`
 --
 ALTER TABLE `Category`
@@ -98,6 +127,12 @@ ALTER TABLE `Movie`
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `UserProfile`
+--
+ALTER TABLE `UserProfile`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `Category`
