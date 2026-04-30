@@ -1,0 +1,108 @@
+.updateProfile {
+  padding: 2rem 1.5rem;
+  max-width: 100%;
+  margin: 0;
+  background: linear-gradient(135deg, var(--color-white) 0%, var(--color-gray-pale) 100%);
+  border: 2px solid var(--color-gray-border);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.updateProfile::before {
+  display: none;
+}
+
+.updateProfile__title {
+  margin: 0 0 2rem 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--color-gray-dark);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.updateProfile__title::after {
+  display: none;
+}
+
+.updateProfile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.updateProfile__form input,
+.updateProfile__form textarea,
+.updateProfile__form select {
+  padding: 1rem 1.2rem;
+  background: var(--color-white);
+  border: 1.5px solid var(--color-gray-lightest);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--color-gray-dark);
+  transition: all 0.2s ease;
+}
+
+.updateProfile__form input::placeholder,
+.updateProfile__form textarea::placeholder {
+  color: var(--color-gray-lighter);
+}
+
+.updateProfile__form input:focus,
+.updateProfile__form textarea:focus,
+.updateProfile__form select:focus {
+  outline: none;
+  border-color: var(--color-gray);
+  background: var(--color-white);
+  box-shadow: 0 0 0 3px rgba(102, 102, 102, 0.1);
+}
+
+.updateProfile__form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.updateProfile__form input[type="button"] {
+  background: linear-gradient(135deg, var(--color-gray) 0%, var(--color-gray-medium) 100%);
+  color: var(--color-white);
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  padding: 1.2rem;
+  border: none;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(102, 102, 102, 0.2);
+}
+
+.updateProfile__form input[type="button"]:hover {
+  background: linear-gradient(135deg, var(--color-gray-medium) 0%, var(--color-gray-dark) 100%);
+  box-shadow: 0 4px 12px rgba(102, 102, 102, 0.3);
+  transform: translateY(-2px);
+}
+
+.updateProfile__form input[type="button"]:active {
+  transform: translateY(0);
+}
+
+@media (min-width: 768px) {
+  .updateProfile {
+    padding: 3.5rem 2.5rem;
+    max-width: 31.25rem;
+  }
+
+  .updateProfile__title {
+    margin-bottom: 2.5rem;
+    font-size: 1.8rem;
+  }
+}

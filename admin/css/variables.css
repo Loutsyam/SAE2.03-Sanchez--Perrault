@@ -1,36 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
 :root {
-  /* Medieval Grimoire Palette - Marron & Or */
-  --color-primary: #d4a574;
-  --color-primary-dark: #8b6914;
-  --color-primary-light: #e6c4a0;
-  --color-primary-lighter: #f5dcc4;
-  
-  /* Parchment Background */
-  --color-bg-darkest: #e6d7c3;
-  --color-bg-dark: #f5e6d3;
-  --color-bg-darker: #ebe0d1;
-  --color-card-bg: #fefbf7;
-  --color-card-bg-light: #faf6f1;
-  
-  /* Text Colors - Marron Medieval */
-  --color-text-light: #d4a574;
-  --color-text-muted: #8b6914;
-  --color-text-secondary: #c9955f;
-  
-  /* Neutral Colors */
+  /* Neutral Colors Only */
   --color-white: #ffffff;
   --color-black: #000000;
+  --color-gray-dark: #222222;
+  --color-gray-medium: #555555;
+  --color-gray: #666666;
+  --color-gray-light: #999999;
+  --color-gray-lighter: #aaaaaa;
+  --color-gray-lightest: #dddddd;
+  --color-gray-pale: #eeeeee;
+  --color-gray-bg: #f5f5f5;
+  --color-gray-border: #e0e0e0;
   
   /* Functional */
-  --color-success: #8b6914;
-  --color-error: #a03a1a;
+  --color-success: #555555;
+  --color-error: #333333;
   
   --ff-sans: "Georgia", serif;
 
   /* Semantic Tokens */
-  --color-fg: var(--color-primary);
-  --color-bg: var(--color-bg-dark);
-  --color-accent: var(--color-primary);
+  --color-fg: var(--color-gray-dark);
+  --color-bg: var(--color-gray-bg);
+  --color-accent: var(--color-gray-dark);
 }

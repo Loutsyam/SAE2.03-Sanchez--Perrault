@@ -1,45 +1,55 @@
 <?php
 
-/** ARCHITECTURE PHP SERVEUR  : Rôle du fichier controller.php
- * 
- *  Dans ce fichier, on va définir les fonctions de contrôle qui vont traiter les requêtes HTTP.
- *  Les requêtes HTTP sont interprétées selon la valeur du paramètre 'todo' de la requête (voir script.php)
- *  Pour chaque valeur différente, on déclarera une fonction de contrôle différente.
- * 
- *  Les fonctions de contrôle vont éventuellement lire les paramètres additionnels de la requête, 
- *  les vérifier, puis appeler les fonctions du modèle (model.php) pour effectuer les opérations
- *  nécessaires sur la base de données.
- *  
- *  Si la fonction échoue à traiter la requête, elle retourne false (mauvais paramètres, erreur de connexion à la BDD, etc.)
- *  Sinon elle retourne le résultat de l'opération (des données ou un message) à includre dans la réponse HTTP.
- */
-
-/** Inclusion du fichier model.php
- *  Pour pouvoir utiliser les fonctions qui y sont déclarées et qui permettent
- *  de faire des opérations sur les données stockées en base de données.
- */
 require("model.php");
 
-
 function readMoviesController(){
-    $movies = getAllMovies();
+    // recupere et securise l'age si y en a un
+    $age = null;
+    if (isset($_REQUEST['age'])) {
+        $age = (int)$_REQUEST['age'];
+    }
     
-    // Grouper les films par catégorie avec array_reduce
-    $grouped = array_reduce($movies, function($acc, $movie) {
-        $cat = $movie->category ?: 'Sans catégorie';
-        $acc[$cat][] = $movie;
-        return $acc;
-    }, []);
+    // je recupere les films de la DB
+    $films = getAllMovies($age);
     
-    // Convertir en tableau indexé avec array_map
-    return array_map(fn($cat, $films) => ['category' => $cat, 'movies' => $films], array_keys($grouped), array_values($grouped));
+    // y'a les films regroupes par categorie pour que ce soit plus clean au frontend
+    $grouped = array();
+    for ($i = 0; $i < count($films); $i++) {
+        $film = $films[$i];
+        $category = $film->category;
+        
+        // remplace les categos vides par un truc par defaut
+        if ($category == null || $category == '') {
+            $category = 'Sans catégorie';
+        }
+        
+        // cree le groupe si y existe pas encore
+        if (!isset($grouped[$category])) {
+            $grouped[$category] = array();
+        }
+        
+        // ajoute le film dans sa categorie
+        $grouped[$category][] = $film;
+    }
+    
+    // formatte les donnees comme le frontend l'attend
+    $result = array();
+    foreach ($grouped as $category => $films_cat) {
+        $result[] = array('category' => $category, 'movies' => $films_cat);
+    }
+    
+    return $result;
 }
 
 function addMovieController(){
-    /* Lecture des données de formulaire
-       On ne vérifie pas si les données sont valides, on suppose que le client les a déjà
-       vérifiées avant de les envoyer 
-    */
+    // verifie que tous les params sont la
+    if (!isset($_POST['title']) || !isset($_POST['director']) || !isset($_POST['year']) || 
+        !isset($_POST['duration']) || !isset($_POST['description']) || !isset($_POST['category']) ||
+        !isset($_POST['image']) || !isset($_POST['trailer']) || !isset($_POST['ageRestriction'])) {
+        return false;
+    }
+    
+    // recupere les donnees du formulaire
     $title = $_POST['title'];
     $director = $_POST['director'];
     $year = $_POST['year'];
@@ -50,10 +60,9 @@ function addMovieController(){
     $trailer = $_POST['trailer'];
     $ageRestriction = $_POST['ageRestriction'];
     
-    // Insertion du film à l'aide de la fonction insertMovie décrite dans model.php
+    // verifie que ca s'est bien passe
     $ok = insertMovie($title, $director, $year, $duration, $description, $categoryId, $image, $trailer, $ageRestriction);
     
-    // $ok est true ou false selon le résultat de l'insertion dans la BDD
     if ($ok != false){
         return "Le film " . $title . " a été ajouté avec succès";
     }
@@ -63,58 +72,43 @@ function addMovieController(){
 }
 
 function readMovieDetailController(){
-    // Récupérer l'ID du film depuis les paramètres de la requête
+    // recupere l'id du film demand
     $movieId = isset($_REQUEST['id']) ? trim($_REQUEST['id']) : '';
     
-    // Valider que l'ID est fourni et est un nombre
+    // verifie que l'id c'est bien un truc valide
     if (empty($movieId) || !is_numeric($movieId)) {
         return false;
     }
     
-    // Récupérer les détails du film
+    // va chercher les details
     $movie = getMovieDetails($movieId);
     
-    // Retourner le film (peut être false si le film n'existe pas)
     return $movie;
 }
 
 function readCategoriesController(){
-    // Récupérer toutes les catégories
     $categories = getAllCategories();
     
-    // Retourner les catégories
     return $categories;
 }
 
-/**
- * Contrôleur pour lire tous les profils utilisateurs.
- * @return array Les profils utilisateurs ou false en cas d'erreur.
- */
 function readProfilesController(){
-    // Récupérer tous les profils
     $profiles = getAllProfiles();
     
-    // Retourner les profils
     return $profiles;
 }
 
-/**
- * Contrôleur pour ajouter un nouveau profil utilisateur.
- * @return string|false Un message de confirmation ou false en cas d'erreur.
- */
 function addProfileController(){
-    /* Lecture des données de formulaire
-       On ne vérifie pas si les données sont valides, on suppose que le client les a déjà
-       vérifiées avant de les envoyer 
-    */
+    if (!isset($_POST['name']) || !isset($_POST['avatar']) || !isset($_POST['minAge'])) {
+        return false;
+    }
+    
     $name = $_POST['name'];
     $avatar = $_POST['avatar'];
     $minAge = $_POST['minAge'];
     
-    // Insertion du profil à l'aide de la fonction insertProfile décrite dans model.php
     $ok = insertProfile($name, $avatar, $minAge);
     
-    // $ok est true ou false selon le résultat de l'insertion dans la BDD
     if ($ok != false){
         return "Le profil " . $name . " a été ajouté avec succès";
     }
@@ -122,3 +116,59 @@ function addProfileController(){
         return false;
     }
 }
+
+function updateProfileController(){
+    if (!isset($_POST['id']) || !isset($_POST['name']) || !isset($_POST['avatar']) || !isset($_POST['minAge'])) {
+        return false;
+    }
+    
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $avatar = $_POST['avatar'];
+    $minAge = $_POST['minAge'];
+    
+    $ok = updateProfile($id, $name, $avatar, $minAge);
+    
+    if ($ok != false){
+        return "Le profil " . $name . " a été modifié avec succès";
+    }
+    else{
+        return false;
+    }
+}
+
+function addFavoriteController(){
+    if (!isset($_REQUEST['profileId']) || !isset($_REQUEST['movieId'])) {
+        return false;
+    }
+    
+    $id_profile = trim($_REQUEST['profileId']);
+    $id_movie = trim($_REQUEST['movieId']);
+    
+    if (empty($id_profile) || !is_numeric($id_profile) || empty($id_movie) || !is_numeric($id_movie)) {
+        return false;
+    }
+    
+    $ok = addFavorite($id_profile, $id_movie);
+    
+    if ($ok != false){
+        return array('message' => 'Le film a été ajouté à vos favoris.');
+    }
+    else{
+        return false;
+    }
+}
+
+function readFavoritesController(){
+    $id_profile = isset($_REQUEST['profileId']) ? trim($_REQUEST['profileId']) : '';
+    
+    if (empty($id_profile) || !is_numeric($id_profile)) {
+        return false;
+    }
+    
+    $favorites = getFavoritesByProfile($id_profile);
+    
+    return $favorites;
+}
+
+

@@ -9,7 +9,7 @@ MovieForm.format = function(handler, categories){
     // Générer les options de catégories dynamiquement
     let categoriesOptions = '<option value="">-- Catégorie --</option>';
     for (const category of categories) {
-        categoriesOptions += '<option value="' + category.name + '">' + category.name + '</option>';
+        categoriesOptions += '<option value="' + category.id + '">' + category.name + '</option>';
     }
     
     html = html.replace('{{categories}}', categoriesOptions);
@@ -18,4 +18,3 @@ MovieForm.format = function(handler, categories){
 }
 
 export {MovieForm};
-

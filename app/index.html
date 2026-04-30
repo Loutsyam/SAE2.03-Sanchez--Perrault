@@ -13,77 +13,178 @@
     <section id="content"></section>
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
-      import { MovieCard } from "./component/MovieCard/script.js";
-      import { MovieDetail } from "./component/MovieDetail/script.js";
       import { MovieCategory } from "./component/MovieCategory/script.js";
+      import { ProfileSelector } from "./component/ProfileSelector/script.js";
+      import { MovieDetail } from "./component/MovieDetail/script.js";
       import { DataMovie } from "./data/dataMovie.js";
+      import { DataProfile } from "./data/dataProfile.js";
+      import { DataFavorite } from "./data/dataFavorite.js";
 
-      // Controleur
-      // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
-      // Une fois l'application terminée, on pourrait remettre let C.
+      // C = Contrôleur : logique applicative, gestion d'événements, état
       window.C = {};
+      // État global de l'application
+      C.allProfiles = [];           // Tous les profils chargés au démarrage
+      C.activeProfileId = null;     // Quel profil l'utilisateur a sélectionné
+      C.allMovies = [];             // Films actuellement affichés (caché)
+      C.userFavoritesIds = [];      // IDs des films favoris du profil actif
 
-      C.handlerAbout = function () {
-        alert(
-          "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
-        );
-      };
-
+      // Affiche les films adaptés à l'âge du profil sélectionné
       C.handlerHome = async function () {
-        let categories = await DataMovie.requestMovies();
-        V.renderMovies(categories);
+        // Calcule l'âge limite du profil sélectionné
+        let ageLimit = null;
+        if (C.activeProfileId !== null) {
+          let profil = C.allProfiles.find(p => p.id === C.activeProfileId);
+          if (profil) {
+            ageLimit = profil.min_age;
+          }
+        }
+        
+        // AWAIT = attend la réponse du serveur avant de continuer
+        // Le serveur va filtrer les films selon l'âge
+        let categories = await DataMovie.requestMovies(ageLimit);
+
+        // Aplatit la structure pour garder en mémoire tous les films
+        C.allMovies = [];
+        for (let i = 0; i < categories.length; i++) {
+          for (let j = 0; j < categories[i].movies.length; j++) {
+            C.allMovies.push(categories[i].movies[j]);
+          }
+        }
+        
+        // Récupère les favoris du profil actif
+        if (C.activeProfileId !== null) {
+          let favorites = await DataFavorite.read(C.activeProfileId);
+          C.userFavoritesIds = [];
+          // Extrait les IDs des favoris pour savoir lesquels ont une étoile
+          if (Array.isArray(favorites)) {
+            for (let i = 0; i < favorites.length; i++) {
+              C.userFavoritesIds.push(favorites[i].id);
+            }
+          }
+        } else {
+          C.userFavoritesIds = [];
+        }
+        
+        // Appelle la Vue pour afficher les films
+        V.renderMovies(categories, C.userFavoritesIds);
       };
 
+      // Affiche le détail d'un film
       C.handlerDetail = async function (movieId) {
+        // Récupère les infos complètes du film
         let movie = await DataMovie.requestMovieDetails(movieId);
-        V.renderMovieDetail(movie);
+        if (movie) {
+          V.renderMovieDetail(movie);
+        }
       };
 
+      // Ajoute un film aux favoris
+      C.addFavorite = async function (movieId) {
+        // Vérification: faut avoir sélectionné un profil d'abord
+        if (C.activeProfileId === null) {
+          alert("Veuillez sélectionner un profil d'abord");
+          return;
+        }
+        
+        // Envoie l'ajout au serveur
+        let response = await DataFavorite.add(C.activeProfileId, movieId);
+        alert(response.message);
+        
+        // Rafraîchit l'affichage pour mettre à jour la liste des favoris
+        C.handlerHome();
+      };
+
+      // Affiche les favoris du profil sélectionné
+      C.handlerFavorites = async function () {
+        if (C.activeProfileId === null) {
+          alert("Veuillez sélectionner un profil d'abord");
+          return;
+        }
+
+        // Récupère la liste des favoris
+        let favorites = await DataFavorite.read(C.activeProfileId);
+        let imageUrl = DataMovie.getHostUrl() + "server/images/";
+        
+        C.userFavoritesIds = [];
+        let favoriteMovies = [];
+        
+        // Si le profil a des favoris, on les affiche dans une catégorie "Mes favoris"
+        if (Array.isArray(favorites) && favorites.length > 0) {
+          for (let i = 0; i < favorites.length; i++) {
+            C.userFavoritesIds.push(favorites[i].id);
+            favoriteMovies.push(favorites[i]);
+          }
+          
+          // Crée une structure factice avec juste une catégorie
+          let categories = [{
+            category: "Mes favoris",
+            movies: favoriteMovies
+          }];
+          
+          V.renderMovies(categories, C.userFavoritesIds);
+        } else {
+          let contentEl = document.querySelector("#content");
+          contentEl.classList.remove("profile-selection-mode");
+          contentEl.innerHTML = '<div class="no-movies">Aucun favori pour ce profil</div>';
+        }
+      };
+
+      // Sélectionne un profil et charge ses films
+      C.selectProfile = function (profile) {
+        C.activeProfileId = profile.id;  // Mémorise le profil
+        V.renderNavBar(C.allProfiles, profile);  // Met à jour la navbar
+        C.handlerHome();  // Charge ses films
+      };
+
+      // Initialisation au démarrage de la page
       C.start = async function () {
-        V.renderNavBar("C.handlerAbout()");
-        let categories = await DataMovie.requestMovies();
-        V.renderMovies(categories);
+        // Charge tous les profils depuis le serveur
+        C.allProfiles = await DataProfile.read();
+        // Affiche les profils sans en sélectionner un
+        V.renderNavBar(C.allProfiles, null);
+        V.renderProfileSelection(C.allProfiles);
       };
 
-      // Vue (contient tout ce qui est relatif à l'affichage)
+      // V = Vue : affichage uniquement
       window.V = {};
 
-      /**
-       * V.renderNavBar
-       *
-       * Cette fonction est responsable de l'affichage de la barre de navigation (NavBar).
-       * Elle sélectionne l'élément HTML avec l'ID "header" et y insère le contenu
-       * formaté par le composant NavBar.
-       */
-      V.renderNavBar = function (hAbout) {
+      // Affiche la barre de navigation avec les profils
+      V.renderNavBar = function (profiles, activeProfile) {
         let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(hAbout);
+        header.innerHTML = NavBar.format(profiles, activeProfile);
       };
 
-      V.renderMovies = function (categories) {
+      // Affiche une liste de films groupés par catégorie
+      V.renderMovies = function (categories, favoriteIds = []) {
         let imageUrl = DataMovie.getHostUrl() + "server/images/";
-        
+        let contentEl = document.querySelector("#content");
+        contentEl.classList.remove("profile-selection-mode");
         if (categories.length === 0) {
-          document.querySelector("#content").innerHTML = '<div class="no-movies">Aucun film disponible pour le moment</div>';
+          contentEl.innerHTML = '<div class="no-movies">Aucun film</div>';
         } else {
-          let categoriesHTML = MovieCategory.formatMany(categories, imageUrl);
-          document.querySelector("#content").innerHTML = categoriesHTML;
+          // Appelle le composant pour formater le HTML
+          contentEl.innerHTML = MovieCategory.formatMany(categories, imageUrl, favoriteIds);
         }
       };
 
+      // Affiche le sélecteur de profils
+      V.renderProfileSelection = function (profiles) {
+        let contentEl = document.querySelector("#content");
+        contentEl.classList.add("profile-selection-mode");
+        let html = ProfileSelector.format(profiles);
+        contentEl.innerHTML = html;
+        // Attache les événements de clic aux cartes de profils
+        ProfileSelector.attachEvents(profiles, C.selectProfile);
+      };
+
+      // Affiche le détail d'un film
       V.renderMovieDetail = function (movie) {
         let imageUrl = DataMovie.getHostUrl() + "server/images/";
-        
-        if (!movie) {
-          document.querySelector("#content").innerHTML = '<div class="error-message">Film introuvable</div>';
-        } else {
-          let movieHTML = MovieDetail.format(movie, imageUrl);
-          document.querySelector("#content").innerHTML = movieHTML;
-        }
+        let html = MovieDetail.format(movie, imageUrl);
+        document.querySelector("#content").innerHTML = html;
       };
 
-      C.start(); // Démarre l'application
+      C.start();
     </script>
   </body>
 </html>
-<script type="module"></script>

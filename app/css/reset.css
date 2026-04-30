@@ -9,3 +9,23 @@ ul {
   margin: 0;
   list-style: none;
 }
+
+/* General Body Styling */
+body {
+  background: var(--color-white);
+  color: var(--color-black);
+  font-family: var(--ff-sans);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  display: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}

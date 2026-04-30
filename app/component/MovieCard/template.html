@@ -1,4 +1,7 @@
-<div class="movie-card" data-id="{{id}}" onclick="C.handlerDetail({{id}})">
+<div class="movie-card" data-id="{{id}}" onclick="C.handlerDetail('{{id}}')">
   <img src="{{imageUrl}}" alt="{{title}}" class="movie-card__image" />
   <h2 class="movie-card__title">{{title}}</h2>
+  <button class="favorite-btn" data-movie-id="{{id}}" onclick="event.stopPropagation(); C.addFavorite('{{id}}');">
+    {{starIcon}}
+  </button>
 </div>

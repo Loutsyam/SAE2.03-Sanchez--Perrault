@@ -5,22 +5,27 @@ let template = await templateFile.text();
 
 let MovieCategory = {};
 
-MovieCategory.format = function(categoryData, imageBaseUrl = './server/images/'){
+MovieCategory.format = function(categoryData, imageBaseUrl = './server/images/', favoriteIds = []){
     let html = template;
+    
     html = html.replace('{{categoryName}}', categoryData.category);
     
-    let moviesHTML = MovieCard.formatMany(categoryData.movies, imageBaseUrl);
+    let moviesHTML = MovieCard.formatMany(categoryData.movies, imageBaseUrl, favoriteIds);
     html = html.replace('{{moviesHTML}}', moviesHTML);
     
     return html;
 }
 
-MovieCategory.formatMany = function(categories, imageBaseUrl = './server/images/'){
+MovieCategory.formatMany = function(categories, imageBaseUrl = './server/images/', favoriteIds = []){
     let html = '';
-    for (const categoryData of categories) {
-        html += MovieCategory.format(categoryData, imageBaseUrl);
+    
+    for (let i = 0; i < categories.length; i++) {
+        let categoryData = categories[i];
+        html = html + MovieCategory.format(categoryData, imageBaseUrl, favoriteIds);
     }
+    
     return html;
 }
 
 export {MovieCategory};
+

@@ -15,25 +15,34 @@
     <div id="formsContainer">
       <section id="addMovie"></section>
       <section id="addProfile"></section>
+      <section id="updateProfile"></section>
     </div>
 
     <script type="module">
       import { MovieForm } from "./component/MovieForm/script.js";
       import { ProfileForm } from "./component/ProfileForm/script.js";
+      import { ProfileUpdate } from "./component/ProfileUpdate/script.js";
       import { DataMovie } from "./data/dataMovie.js";
       import { DataProfile } from "./data/dataProfile.js";
       import { Log } from "./component/Log/script.js";
 
+      // Même architecture que l'app: C (contrôleur) et V (vue)
       window.C = {};
 
+      // Gère le formulaire d'ajout de film
       C.handlerAddMovie = async function(){
+        // Récupère le formulaire HTML
         let form = document.querySelector('.addMovie__form');
+        // FormData = l'objet formulaire
         let fd = new FormData(form);
         V.renderLog("Envoi du formulaire...");
+        // Envoie au serveur via le modèle
         let res = await DataMovie.add(fd);
+        // Affiche le résultat
         V.renderLog(res);
       }
 
+      // Gère le formulaire d'ajout de profil
       C.handlerAddProfile = async function(){
         let form = document.querySelector('.addProfile__form');
         let fd = new FormData(form);
@@ -42,23 +51,51 @@
         V.renderLog(res);
       }
 
+      // Gère le formulaire de modification de profil
+      C.handlerUpdateProfile = async function(){
+        let form = document.querySelector('.updateProfile__form');
+        let fd = new FormData(form);
+        V.renderLog("Envoi du formulaire...");
+        let res = await DataProfile.update(fd);
+        V.renderLog(res);
+      }
+
+      // Initialisation: charge les données et affiche les formulaires
       C.start = async function(){
         V.renderLog("Démarrage");
+        // Récupère la liste des catégories de films
         let categories = await DataMovie.requestCategories();
         V.renderMovie(categories, "C.handlerAddMovie()");
         V.renderProfile("C.handlerAddProfile()");
+        
+        // Récupère la liste de tous les profils
+        let profiles = await DataProfile.getAll();
+        // Affiche le formulaire de modification passant la fonction handler en paramètre
+        V.renderProfileUpdate(profiles, "C.handlerUpdateProfile()");
       }
 
+      // V = Vue
       window.V = {};
 
+      // Affiche le formulaire d'ajout de film
       V.renderMovie = function(categories, handler){
         let content = document.querySelector("#addMovie");
+        // Le handler est une chaîne de caractères injectée dans le template
         content.innerHTML = MovieForm.format(handler, categories);
       }
 
+      // Affiche le formulaire d'ajout de profil
       V.renderProfile = function(handler){
         let content = document.querySelector("#addProfile");
         content.innerHTML = ProfileForm.format(handler);
+      }
+
+      // Affiche le formulaire de modification de profil avec la liste des profils
+      V.renderProfileUpdate = function(profiles, handler){
+        let content = document.querySelector("#updateProfile");
+        content.innerHTML = ProfileUpdate.format(profiles, handler);
+        // Attache les événements de changement sur les sélecteurs de profil
+        ProfileUpdate.attachEvents(profiles);
       }
 
       V.renderLog = function(txt){

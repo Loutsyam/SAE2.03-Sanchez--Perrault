@@ -1,15 +1,15 @@
 .movie-card {
   position: relative;
   width: 100%;
-  max-width: 280px;
+  max-width: 240px;
   cursor: pointer;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: none;
-  background: white;
+  background: var(--color-white);
   display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-gray-light);
 }
 
 .movie-card:hover {
@@ -26,9 +26,9 @@
 .movie-card__title {
   position: static;
   margin: 0;
-  padding: 1rem 1.2rem;
+  padding: 1.5rem 1rem;
   background: transparent;
-  color: #333;
+  color: var(--color-black);
   font-size: 0.95rem;
   font-weight: 600;
   text-align: center;
@@ -38,17 +38,17 @@
 
 .movie-card:hover .movie-card__title {
   background: transparent;
-  color: #333;
+  color: var(--color-black);
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .movie-card {
-    max-width: 240px;
+    max-width: 280px;
   }
 
   .movie-card__title {
     font-size: 0.95rem;
-    padding: 1.5rem 1rem;
+    padding: 1rem 1.2rem;
   }
 }
 
