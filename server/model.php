@@ -50,8 +50,9 @@ function insertMovie($title, $director, $year, $duration, $description, $categor
     
     if (!$categoryResult) {
         return false;
-    // conversion en int pour la restriction d'age
     }
+    
+    // conversion en int pour la restriction d'age
     $minAge = intval($ageRestriction);
     
     $sql = "INSERT INTO Movie (name, director, year, length, description, id_category, image, trailer, min_age) 
@@ -180,6 +181,41 @@ function addFavorite($id_profile, $id_movie){
     
     // l'ajoute aux favoris
     $sql = "INSERT INTO Favorite (id_profile, id_movie) VALUES (:id_profile, :id_movie)";
+    $stmt = $cnx->prepare($sql);
+    $resultat = $stmt->execute(array(':id_profile' => $id_profile, ':id_movie' => $id_movie));
+    
+    return $resultat;
+}
+
+function removeFavorite($id_profile, $id_movie){
+    $cnx = getConnection();
+    
+    // conversion en int pour securiser les parametres
+    $id_profile = (int)$id_profile;
+    $id_movie = (int)$id_movie;
+    
+    // verifie que le profil existe vraiment
+    $sql = "SELECT id FROM UserProfile WHERE id = :id_profile";
+    $stmt = $cnx->prepare($sql);
+    $stmt->execute(array(':id_profile' => $id_profile));
+    $profil = $stmt->fetch(PDO::FETCH_OBJ);
+    
+    if (!$profil) {
+        return false;
+    }
+    
+    // verifie que le film existe vraiment aussi
+    $sql = "SELECT id FROM Movie WHERE id = :id_movie";
+    $stmt = $cnx->prepare($sql);
+    $stmt->execute(array(':id_movie' => $id_movie));
+    $film = $stmt->fetch(PDO::FETCH_OBJ);
+    
+    if (!$film) {
+        return false;
+    }
+    
+    // supprime le film des favoris
+    $sql = "DELETE FROM Favorite WHERE id_profile = :id_profile AND id_movie = :id_movie";
     $stmt = $cnx->prepare($sql);
     $resultat = $stmt->execute(array(':id_profile' => $id_profile, ':id_movie' => $id_movie));
     

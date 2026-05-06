@@ -8,100 +8,97 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
 
-.addMovie::before {
-  display: none;
-}
+  &::before {
+    display: none;
+  }
 
-.addMovie__title {
-  margin: 0 0 2rem 0;
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--color-gray-dark);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  position: relative;
-  z-index: 1;
-}
+  .addMovie__title {
+    margin: 0 0 2rem 0;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--color-gray-dark);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
 
-.addMovie__title::after {
-  display: none;
-}
+    &::after {
+      display: none;
+    }
+  }
 
-.addMovie__form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  position: relative;
-  z-index: 1;
-}
+  .addMovie__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
 
-.addMovie__form input,
-.addMovie__form textarea,
-.addMovie__form select {
-  padding: 1rem 1.2rem;
-  background: var(--color-white);
-  border: 1.5px solid var(--color-gray-lightest);
-  border-radius: 6px;
-  font-size: 0.95rem;
-  font-family: inherit;
-  color: var(--color-gray-dark);
-  transition: all 0.2s ease;
-}
+    input,
+    textarea,
+    select {
+      padding: 1rem 1.2rem;
+      background: var(--color-white);
+      border: 1.5px solid var(--color-gray-lightest);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--color-gray-dark);
+      transition: all 0.2s ease;
 
-.addMovie__form input::placeholder,
-.addMovie__form textarea::placeholder {
-  color: var(--color-gray-lighter);
-}
+      &::placeholder {
+        color: var(--color-gray-lighter);
+      }
 
-.addMovie__form input:focus,
-.addMovie__form textarea:focus,
-.addMovie__form select:focus {
-  outline: none;
-  border-color: var(--color-gray);
-  background: var(--color-white);
-  box-shadow: 0 0 0 3px rgba(102, 102, 102, 0.1);
-}
+      &:focus {
+        outline: none;
+        border-color: var(--color-gray);
+        background: var(--color-white);
+        box-shadow: 0 0 0 3px rgba(102, 102, 102, 0.1);
+      }
+    }
 
-.addMovie__form textarea {
-  resize: vertical;
-  min-height: 120px;
-}
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
 
-.addMovie__form input[type="button"] {
-  background: linear-gradient(135deg, var(--color-gray) 0%, var(--color-gray-medium) 100%);
-  color: var(--color-white);
-  font-weight: 800;
-  cursor: pointer;
-  margin-top: 1.5rem;
-  padding: 1.2rem;
-  border: none;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(102, 102, 102, 0.2);
-}
+    input[type="button"] {
+      background: linear-gradient(135deg, var(--color-gray) 0%, var(--color-gray-medium) 100%);
+      color: var(--color-white);
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      padding: 1.2rem;
+      border: none;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(102, 102, 102, 0.2);
 
-.addMovie__form input[type="button"]:hover {
-  background: linear-gradient(135deg, var(--color-gray-medium) 0%, var(--color-gray-dark) 100%);
-  box-shadow: 0 4px 12px rgba(102, 102, 102, 0.3);
-  transform: translateY(-2px);
-}
+      &:hover {
+        background: linear-gradient(135deg, var(--color-gray-medium) 0%, var(--color-gray-dark) 100%);
+        box-shadow: 0 4px 12px rgba(102, 102, 102, 0.3);
+        transform: translateY(-2px);
+      }
 
-.addMovie__form input[type="button"]:active {
-  transform: translateY(0);
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
 }
 
 @media (min-width: 768px) {
   .addMovie {
     padding: 3.5rem 2.5rem;
-  }
 
-  .addMovie__title {
-    margin-bottom: 2.5rem;
-    font-size: 1.8rem;
+    .addMovie__title {
+      margin-bottom: 2.5rem;
+      font-size: 1.8rem;
+    }
   }
 }

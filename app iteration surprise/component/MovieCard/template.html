@@ -1,0 +1,20 @@
+<div class="movie-card" data-id="{{id}}" onclick="C.handlerDetail('{{id}}')">
+  <img src="{{imageUrl}}" alt="{{title}}" class="movie-card__image" />
+  <button class="favorite-btn" data-movie-id="{{id}}" onclick="event.stopPropagation(); {{favoriteAction}}">
+    {{starIcon}}
+  </button>
+  
+  <div class="movie-card__hover-overlay">
+    <div class="movie-card__overlay-content">
+      <h3 class="movie-card__overlay-title">{{title}}</h3>
+      <div class="movie-card__overlay-info">
+        <p><strong>Réalisateur:</strong> <span class="director-text">--</span></p>
+        <p><strong>Année:</strong> <span class="year-text">--</span></p>
+        <p><strong>Catégorie:</strong> <span class="category-text">--</span></p>
+      </div>
+      <div class="movie-card__overlay-description">
+        <p class="description-text">--</p>
+      </div>
+    </div>
+  </div>
+</div>

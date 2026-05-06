@@ -1,0 +1,25 @@
+<div class="updateProfile">
+    <h4 class="updateProfile__title">modifier un profil utilisateur</h4>
+    <form class="updateProfile__form">
+        <input type="hidden" name="id" value="">
+        
+        <select name="profileSelect" class="profileSelect" required>
+            <option value="">-- Sélectionner un profil --</option>
+            {{profileOptions}}
+        </select>
+
+        <input required type="text" name="name" placeholder="Nom du profil">
+        <input type="text" name="avatar" placeholder="Image / Avatar (facultatif)">
+        
+        <select name="minAge" required>
+            <option value="">-- Restriction d'âge --</option>
+            <option value="0">Tous publics (0+)</option>
+            <option value="6">6+</option>
+            <option value="12">12+</option>
+            <option value="16">16+</option>
+            <option value="18">18+</option>
+        </select>
+
+        <input onclick="{{handler}}" type="button" value="Modifier" name="todo">
+    </form>
+</div>

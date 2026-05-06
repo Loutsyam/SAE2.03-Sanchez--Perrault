@@ -12,52 +12,61 @@
   overflow: hidden;
   box-shadow: none;
   position: relative;
+
+  &::before {
+    display: none;
+  }
+
+  .log__list {
+    font-size: 0.95rem;
+    color: var(--color-gray-dark);
+    overflow-y: auto;
+    width: 100%;
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+    max-height: 100%;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--color-gray-bg);
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-gray-light);
+      border-radius: 10px;
+      transition: none;
+
+      &:hover {
+        background: var(--color-gray);
+      }
+    }
+
+    .last {
+      animation: none;
+      color: var(--color-gray-dark);
+      font-weight: 600;
+      text-shadow: none;
+    }
+
+    .clignotant {
+      animation: none;
+      color: var(--color-gray-dark);
+    }
+  }
 }
 
-.log::before {
-  display: none;
-}
-
-.log__list {
-  font-size: 0.95rem;
-  color: var(--color-gray-dark);
-  overflow-y: auto;
-  width: 100%;
-  font-family: 'Courier New', monospace;
-  line-height: 1.6;
-  letter-spacing: 0.5px;
-  max-height: 100%;
-}
-
-.log__list::-webkit-scrollbar {
-  width: 8px;
-}
-
-.log__list::-webkit-scrollbar-track {
-  background: var(--color-gray-bg);
-  border-radius: 10px;
-}
-
-.log__list::-webkit-scrollbar-thumb {
-  background: var(--color-gray-light);
-  border-radius: 10px;
-  transition: none;
-}
-
-.log__list::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gray);
-}
-
-.log__list .last {
-  animation: none;
-  color: var(--color-gray-dark);
-  font-weight: 600;
-  text-shadow: none;
-}
-
-.log__list .clignotant {
-  animation: none;
-  color: var(--color-gray-dark);
+@media (min-width: 768px) {
+  .log {
+    max-width: 700px;
+    height: 200px;
+    padding: 1.5rem;
+    margin: 2rem auto;
+  }
 }
 
 @keyframes slideIn {
@@ -77,14 +86,5 @@
   }
   50%, 99% {
     opacity: 0.3;
-  }
-}
-
-@media (min-width: 768px) {
-  .log {
-    max-width: 700px;
-    height: 200px;
-    padding: 1.5rem;
-    margin: 2rem auto;
   }
 }

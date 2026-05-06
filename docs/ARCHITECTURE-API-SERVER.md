@@ -146,7 +146,7 @@ Le modèle ne sait pas d'où vient la requête, ni ce qu'on fera de ses résulta
 Toutes les interactions SQL utilisent des **requêtes préparées** avec `bindParam`. Cela immunise le code contre les injections SQL, une des vulnérabilités les plus courantes (OWASP Top 10).
 
 ```php
-// ✅ Correct : paramètre lié, jamais interpolé dans la chaîne SQL
+// [OK] Correct : paramètre lié, jamais interpolé dans la chaîne SQL
 $sql = "SELECT entree, plat, dessert FROM Repas WHERE jour=:jour AND semaine=:semaine";
 $stmt = $cnx->prepare($sql);
 $stmt->bindParam(':jour', $j);
@@ -155,7 +155,7 @@ $stmt->execute();
 ```
 
 ```php
-// ❌ Dangereux : injection SQL possible
+// [KO] Dangereux : injection SQL possible
 $sql = "SELECT * FROM Repas WHERE jour='$j'";
 ```
 

@@ -1,0 +1,56 @@
+@layer reset, variables, components, utilities;
+
+@import "./reset.css" layer(reset);
+@import "./variables.css" layer(variables);
+@import "./utilities.css" layer(utilities);
+
+@import "../component/NavBar/style.css" layer(components);
+@import "../component/MovieCard/style.css" layer(components);
+@import "../component/MovieDetail/style.css" layer(components);
+@import "../component/MovieCategory/style.css" layer(components);
+@import "../component/ProfileSelector/style.css" layer(components);
+
+
+.content {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg-dark);
+}
+
+/* Buttons - Global styles */
+button {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--ff-sans);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+button.primary {
+  background: var(--color-accent-primary);
+  color: var(--color-black);
+  border: 2px solid var(--color-accent-primary);
+}
+
+button.primary:hover {
+  background: transparent;
+  color: var(--color-accent-primary);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.2);
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--color-accent-secondary);
+  border: 2px solid var(--color-accent-secondary);
+}
+
+button.secondary:hover {
+  background: var(--color-accent-secondary);
+  color: var(--color-black);
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.2);
+}

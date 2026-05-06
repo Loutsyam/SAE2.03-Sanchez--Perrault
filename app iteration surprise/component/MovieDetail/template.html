@@ -1,0 +1,24 @@
+<div class="movie-detail">
+  <div class="movie-detail__header">
+    <img src="{{imageUrl}}" alt="{{title}}" class="movie-detail__image" />
+    <div class="movie-detail__info">
+      <h1 class="movie-detail__title">{{title}}</h1>
+      <div class="movie-detail__meta">
+        <p class="movie-detail__director"><strong>Réalisateur:</strong> {{director}}</p>
+        <p class="movie-detail__year"><strong>Année:</strong> {{year}}</p>
+        <p class="movie-detail__category"><strong>Catégorie:</strong> {{category}}</p>
+        <p class="movie-detail__age-restriction"><strong>Restriction d'âge:</strong> {{minAge}}+</p>
+      </div>
+      
+      <div class="movie-detail__description">
+        <h2>Synopsis</h2>
+        <p>{{description}}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="movie-detail__trailer">
+    <h2>Trailer</h2>
+    <iframe width="100%" height="500" src="{{trailerUrl}}" title="Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+:root {
+  /* Neutral Colors Only */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-dark: #222222;
+  --color-gray-medium: #555555;
+  --color-gray: #666666;
+  --color-gray-light: #999999;
+  --color-gray-lighter: #aaaaaa;
+  --color-gray-lightest: #dddddd;
+  --color-gray-pale: #eeeeee;
+  --color-gray-bg: #f5f5f5;
+  --color-gray-border: #e0e0e0;
+  
+  /* Functional */
+  --color-success: #555555;
+  --color-error: #333333;
+  
+  --ff-sans: "Georgia", serif;
+
+  /* Semantic Tokens */
+  --color-fg: var(--color-gray-dark);
+  --color-bg: var(--color-gray-bg);
+  --color-accent: var(--color-gray-dark);
+}

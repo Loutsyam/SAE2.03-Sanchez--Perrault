@@ -34,9 +34,11 @@ function readMoviesController(){
     
     // formatte les donnees comme le frontend l'attend
     $result = array();
-    foreach ($grouped as $category => $films_cat) {
-        $result[] = array('category' => $category, 'movies' => $films_cat);
-    }
+$categories = array_keys($grouped);
+for ($i = 0; $i < count($categories); $i++) {
+    $category = $categories[$i];
+    $result[] = array('category' => $category, 'movies' => $grouped[$category]);
+}
     
     return $result;
 }
@@ -159,6 +161,28 @@ function addFavoriteController(){
     }
 }
 
+function removeFavoriteController(){
+    if (!isset($_REQUEST['profileId']) || !isset($_REQUEST['movieId'])) {
+        return false;
+    }
+    
+    $id_profile = trim($_REQUEST['profileId']);
+    $id_movie = trim($_REQUEST['movieId']);
+    
+    if (empty($id_profile) || !is_numeric($id_profile) || empty($id_movie) || !is_numeric($id_movie)) {
+        return false;
+    }
+    
+    $ok = removeFavorite($id_profile, $id_movie);
+    
+    if ($ok != false){
+        return array('message' => 'Le film a été retiré de vos favoris.');
+    }
+    else{
+        return false;
+    }
+}
+
 function readFavoritesController(){
     $id_profile = isset($_REQUEST['profileId']) ? trim($_REQUEST['profileId']) : '';
     
@@ -170,5 +194,6 @@ function readFavoritesController(){
     
     return $favorites;
 }
+
 
 

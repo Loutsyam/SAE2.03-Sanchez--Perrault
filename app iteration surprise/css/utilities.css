@@ -1,0 +1,60 @@
+.font-sans {
+  font-family: var(--ff-sans);
+}
+
+.font-mono {
+  font-family: Courier, monospace;
+}
+
+/* Accent Color Utilities */
+.text-accent-primary {
+  color: var(--color-accent-primary);
+}
+
+.text-accent-secondary {
+  color: var(--color-accent-secondary);
+}
+
+.text-accent-tertiary {
+  color: var(--color-accent-tertiary);
+}
+
+.bg-accent-primary {
+  background: var(--color-accent-primary);
+  color: var(--color-black);
+}
+
+.border-accent-primary {
+  border-color: var(--color-accent-primary);
+}
+
+.border-accent-secondary {
+  border-color: var(--color-accent-secondary);
+}
+
+/* Spacing Utilities */
+.mt-lg {
+  margin-top: var(--spacing-lg);
+}
+
+.mb-lg {
+  margin-bottom: var(--spacing-lg);
+}
+
+.p-lg {
+  padding: var(--spacing-lg);
+}
+
+.gap-lg {
+  gap: var(--spacing-lg);
+}
+
+/* Text Utilities */
+.text-uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.text-bold {
+  font-weight: 700;
+}

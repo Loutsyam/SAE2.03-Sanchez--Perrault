@@ -1,10 +1,10 @@
 <?php
+// Activer le rapport d'erreurs PHP
 error_reporting(E_ALL);
+
+// Désactiver l'affichage des erreurs à l'écran (pour éviter de polluer la réponse JSON)
 ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
-ini_set('log_errors', 1);
-ini_set('error_log', '/tmp/php_errors.log');
-
 require("controller.php");
 
 if (isset($_REQUEST['todo'])){
@@ -38,6 +38,9 @@ if (isset($_REQUEST['todo'])){
       break;
     case 'addfavorite':
       $data = addFavoriteController();
+      break;
+    case 'removefavorite':
+      $data = removeFavoriteController();
       break;
     case 'readfavorites':
       $data = readFavoritesController();

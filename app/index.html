@@ -8,9 +8,9 @@
   </head>
 
   <body>
-    <header id="header"></header>
+    <header class="header"></header>
 
-    <section id="content"></section>
+    <section class="content"></section>
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
       import { MovieCategory } from "./component/MovieCategory/script.js";
@@ -66,7 +66,7 @@
         }
         
         // Appelle la Vue pour afficher les films
-        V.renderMovies(categories, C.userFavoritesIds);
+          V.renderMovies(categories, C.userFavoritesIds, false);
       };
 
       // Affiche le détail d'un film
@@ -92,6 +92,22 @@
         
         // Rafraîchit l'affichage pour mettre à jour la liste des favoris
         C.handlerHome();
+      };
+
+      // Retire un film des favoris
+      C.removeFavorite = async function (movieId) {
+        // Vérification: faut avoir sélectionné un profil d'abord
+        if (C.activeProfileId === null) {
+          alert("Veuillez sélectionner un profil d'abord");
+          return;
+        }
+        
+        // Envoie la suppression au serveur
+        let response = await DataFavorite.delete(C.activeProfileId, movieId);
+        alert(response.message);
+        
+        // Rafraîchit l'affichage pour mettre à jour la liste des favoris
+        C.handlerFavorites();
       };
 
       // Affiche les favoris du profil sélectionné
@@ -121,11 +137,11 @@
             movies: favoriteMovies
           }];
           
-          V.renderMovies(categories, C.userFavoritesIds);
+          V.renderMovies(categories, [], true);
         } else {
-          let contentEl = document.querySelector("#content");
+          let contentEl = document.querySelector(".content");
           contentEl.classList.remove("profile-selection-mode");
-          contentEl.innerHTML = '<div class="no-movies">Aucun favori pour ce profil</div>';
+          contentEl.innerHTML = '<div class="no-movies">Votre liste de favoris est vide.</div>';
         }
       };
 
@@ -150,26 +166,26 @@
 
       // Affiche la barre de navigation avec les profils
       V.renderNavBar = function (profiles, activeProfile) {
-        let header = document.querySelector("#header");
+        let header = document.querySelector(".header");
         header.innerHTML = NavBar.format(profiles, activeProfile);
       };
 
       // Affiche une liste de films groupés par catégorie
-      V.renderMovies = function (categories, favoriteIds = []) {
+      V.renderMovies = function (categories, favoriteIds = [], isDisplayingFavorites = false) {
         let imageUrl = DataMovie.getHostUrl() + "server/images/";
-        let contentEl = document.querySelector("#content");
+        let contentEl = document.querySelector(".content");
         contentEl.classList.remove("profile-selection-mode");
         if (categories.length === 0) {
           contentEl.innerHTML = '<div class="no-movies">Aucun film</div>';
         } else {
           // Appelle le composant pour formater le HTML
-          contentEl.innerHTML = MovieCategory.formatMany(categories, imageUrl, favoriteIds);
+          contentEl.innerHTML = MovieCategory.formatMany(categories, imageUrl, favoriteIds, isDisplayingFavorites);
         }
       };
 
       // Affiche le sélecteur de profils
       V.renderProfileSelection = function (profiles) {
-        let contentEl = document.querySelector("#content");
+        let contentEl = document.querySelector(".content");
         contentEl.classList.add("profile-selection-mode");
         let html = ProfileSelector.format(profiles);
         contentEl.innerHTML = html;
@@ -181,7 +197,7 @@
       V.renderMovieDetail = function (movie) {
         let imageUrl = DataMovie.getHostUrl() + "server/images/";
         let html = MovieDetail.format(movie, imageUrl);
-        document.querySelector("#content").innerHTML = html;
+        document.querySelector(".content").innerHTML = html;
       };
 
       C.start();
