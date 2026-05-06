@@ -52,7 +52,7 @@
 /* Text Utilities */
 .text-uppercase {
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.03125rem;
 }
 
 .text-bold {

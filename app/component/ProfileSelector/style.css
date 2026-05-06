@@ -52,7 +52,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 760.5rem) {
   .profile-selection-container {
     padding: 2rem;
 
@@ -74,7 +74,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 64rem) {
   .profile-selection-container {
     .profiles-grid {
       grid-template-columns: repeat(4, 1fr);

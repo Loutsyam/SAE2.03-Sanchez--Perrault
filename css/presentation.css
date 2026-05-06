@@ -11,39 +11,39 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 1.25rem;
 }
 
 .container {
     background: white;
-    padding: 40px;
-    max-width: 600px;
+    padding: 2.5rem;
+    max-width: 37.5rem;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 0.0625rem solid #ddd;
 }
 
 h1 {
     color: #000;
-    margin-bottom: 15px;
+    margin-bottom: 0.9375rem;
     font-size: 2em;
 }
 
 .subtitle {
     color: #000;
     font-size: 1em;
-    margin-bottom: 30px;
+    margin-bottom: 1.875rem;
     line-height: 1.6;
 }
 
 .buttons-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 0.9375rem;
+    margin-bottom: 1.25rem;
 }
 
 .btn {
-    padding: 15px;
+    padding: 0.9375rem;
     border: none;
     background: #fff;
     color: #000;
@@ -75,9 +75,9 @@ h1 {
     grid-column: 1 / -1;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 37.5rem) {
     .container {
-        padding: 30px;
+        padding: 1.875rem;
     }
 
     h1 {

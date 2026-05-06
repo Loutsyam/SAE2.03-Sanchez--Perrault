@@ -2,27 +2,27 @@
 .movie-item {
   position: relative;
   width: 100%;
-  max-width: 240px;
+  max-width: 15rem;
   cursor: pointer;
   border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
   background: var(--color-gray-dark);
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-gray-medium);
+  border: 0.0625rem solid var(--color-gray-medium);
   transition: all 0.3s ease;
 
   &:hover {
     transform: scale(1.15);
-    max-width: 400px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    max-width: 25rem;
+    box-shadow: 0 1.25rem 3.75rem rgba(0, 0, 0, 0.8);
     z-index: 100;
     overflow: visible;
 
     .movie-card__image {
       opacity: 0.2;
-      filter: blur(2px);
+      filter: blur(0.125rem);
     }
 
     .movie-card__hover-overlay {
@@ -105,7 +105,7 @@
         text-transform: uppercase;
         font-size: 0.65rem;
         margin-right: 0.5rem;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.03125rem;
       }
 
       span {
@@ -118,7 +118,7 @@
     flex-grow: 1;
     overflow-y: auto;
     padding-top: var(--spacing-sm);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 0.0625rem solid rgba(255, 255, 255, 0.1);
 
     p {
       margin: 0;
@@ -132,45 +132,45 @@
 .favorite-btn,
 .remove-btn {
   position: absolute;
-  top: 12px;
-  padding: 8px 10px;
+  top: 0.75rem;
+  padding: 0.5rem 0.625rem;
   border: none;
   background: rgba(0, 0, 0, 0.7);
   cursor: pointer;
   font-size: 1.5rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   color: var(--color-white);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(0.625rem);
   z-index: 20;
   transition: all 0.2s ease;
 }
 
 .favorite-btn {
-  right: 12px;
+  right: 0.75rem;
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     color: var(--color-white);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0.25rem 0.75rem rgba(255, 255, 255, 0.1);
   }
 }
 
 .remove-btn {
-  right: 50px;
+  right: 3.125rem;
   background: rgba(255, 255, 255, 0.2);
   color: white;
   font-size: 1.2rem;
-  padding: 4px 8px;
+  padding: 0.25rem 0.5rem;
 
   &:hover {
     background: var(--color-accent-primary);
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .movie-card,
   .movie-item {
-    max-width: 280px;
+    max-width: 17.5rem;
 
     .movie-card__title {
       font-size: 0.9rem;

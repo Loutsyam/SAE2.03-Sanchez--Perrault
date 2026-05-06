@@ -7,8 +7,8 @@
   padding: 1rem;
   margin: 1rem auto;
   background: var(--color-white);
-  border: 1px solid var(--color-gray-lightest);
-  border-radius: 4px;
+  border: 0.0625rem solid var(--color-gray-lightest);
+  border-radius: 0.25rem;
   overflow: hidden;
   box-shadow: none;
   position: relative;
@@ -24,21 +24,21 @@
     width: 100%;
     font-family: 'Courier New', monospace;
     line-height: 1.6;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem;
     max-height: 100%;
 
     &::-webkit-scrollbar {
-      width: 8px;
+      width: 0.5rem;
     }
 
     &::-webkit-scrollbar-track {
       background: var(--color-gray-bg);
-      border-radius: 10px;
+      border-radius: 0.625rem;
     }
 
     &::-webkit-scrollbar-thumb {
       background: var(--color-gray-light);
-      border-radius: 10px;
+      border-radius: 0.625rem;
       transition: none;
 
       &:hover {
@@ -60,10 +60,10 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 760.5rem) {
   .log {
-    max-width: 700px;
-    height: 200px;
+    max-width: 43.75rem;
+    height: 12.5rem;
     padding: 1.5rem;
     margin: 2rem auto;
   }
@@ -72,7 +72,7 @@
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(0.9375rem);
   }
   to {
     opacity: 1;

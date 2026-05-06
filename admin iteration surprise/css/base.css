@@ -3,9 +3,114 @@
 @import "./reset.css" layer(reset);
 @import "./variables.css" layer(variables);
 @import "./utilities.css" layer(utilities);
-@import "./style.css";
 
 @import "../component/Log/style.css" layer(components);
 @import "../component/MovieForm/style.css" layer(components);
 @import "../component/ProfileForm/style.css" layer(components);
 @import "../component/ProfileUpdate/style.css" layer(components);
+
+.content {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg-dark);
+}
+
+/* Navigation */
+nav {
+  background: var(--color-bg-dark);
+  border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--color-accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1875rem;
+    font-family: var(--ff-sans);
+  }
+
+  @media (min-width: 760.5rem) {
+    padding: 1rem;
+
+    h1 {
+      font-size: 1.6rem;
+      letter-spacing: 0.125rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    padding: 1.5rem 2rem;
+
+    h1 {
+      font-size: 2rem;
+      letter-spacing: 0.1875rem;
+    }
+  }
+}
+
+/* Forms Container */
+.forms-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 760.5rem) {
+    padding: 0 1.5rem;
+    gap: 2rem;
+  }
+
+  @media (min-width: 64rem) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 2rem;
+    gap: 2rem;
+  }
+}
+
+/* Buttons - Global styles */
+button {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--ff-sans);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03125rem;
+}
+
+button.primary {
+  background: var(--color-accent-primary);
+  color: var(--color-black);
+  border: 0.125rem solid var(--color-accent-primary);
+}
+
+button.primary:hover {
+  background: transparent;
+  color: var(--color-accent-primary);
+  box-shadow: 0 0.25rem 0.75rem rgba(255, 149, 0, 0.2);
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--color-accent-secondary);
+  border: 0.125rem solid var(--color-accent-secondary);
+}
+
+button.secondary:hover {
+  background: var(--color-accent-secondary);
+  color: var(--color-black);
+  box-shadow: 0 0.25rem 0.75rem rgba(233, 30, 99, 0.2);
+}

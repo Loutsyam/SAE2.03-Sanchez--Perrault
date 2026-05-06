@@ -2,8 +2,8 @@
   margin-bottom: 2rem;
   padding: 1.5rem;
   background: var(--color-white);
-  border-radius: 4px;
-  border: 1px solid var(--color-gray-light);
+  border-radius: 0.25rem;
+  border: 0.0625rem solid var(--color-gray-light);
   box-shadow: none;
 
   .movie-category__title {
@@ -11,22 +11,22 @@
     margin-top: 0;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--color-gray-light);
+    border-bottom: 0.0625rem solid var(--color-gray-light);
     color: var(--color-black);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.0625rem;
     font-weight: 700;
   }
 
   .movies-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(9.375rem, 1fr));
     gap: 2rem 1.5rem;
     justify-items: center;
     align-items: start;
 
     .movie-card {
-      max-width: 240px;
+      max-width: 15rem;
 
       .movie-card__image {
         height: auto;
@@ -50,8 +50,8 @@
   color: var(--color-gray-medium);
   font-style: italic;
   background: var(--color-white);
-  border-radius: 12px;
-  border: 1px solid var(--color-gray-light);
+  border-radius: 0.75rem;
+  border: 0.0625rem solid var(--color-gray-light);
 }
 
 .error-message {
@@ -61,14 +61,14 @@
   color: var(--color-error);
   font-style: italic;
   background: var(--color-white);
-  border-radius: 12px;
-  border: 1px solid var(--color-gray-light);
+  border-radius: 0.75rem;
+  border: 0.0625rem solid var(--color-gray-light);
 }
 
 .content {
   padding: 1.5rem;
   min-height: 80rem;
-  max-width: 1600px;
+  max-width: 100rem;
   margin: 0 auto;
 
   &.profile-selection-mode {
@@ -78,7 +78,7 @@
 }
 
 /* Responsive design */
-@media (min-width: 768px) {
+@media (min-width: 760.5rem) {
   .content {
     padding: 2.5rem 1.5rem;
   }
@@ -88,7 +88,7 @@
     margin-bottom: 2rem;
 
     .movies-grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(9.375rem, 1fr));
       gap: 2rem 1.5rem;
     }
 
@@ -103,7 +103,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 64rem) {
   .content {
     padding: 3.5rem 2rem;
   }
@@ -113,7 +113,7 @@
     margin-bottom: 3rem;
 
     .movies-grid {
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
       gap: 3rem 2.5rem;
     }
 
