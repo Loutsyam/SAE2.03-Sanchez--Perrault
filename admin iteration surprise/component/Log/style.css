@@ -2,68 +2,68 @@
   display: flex;
   align-items: flex-end;
   width: 100%;
-  height: auto;
-  max-width: 100%;
-  padding: 1rem;
-  margin: 1rem auto;
+  max-width: 700px;
+  height: 200px;
+  padding: 1.5rem;
+  margin: 2rem auto;
   background: var(--color-log-bg);
-  border: 0.125rem solid rgb(100, 100, 100);
-  border-radius: 0.25rem;
+  border: 1px solid rgb(100, 100, 100);
+  border-radius: 4px;
   overflow: hidden;
   box-shadow: none;
   position: relative;
+}
 
-  &::before {
-    display: none;
-  }
+.log::before {
+  display: none;
+}
 
-  .log__list {
-    font-size: 0.95rem;
-    color: var(--color-log-text);
-    overflow-y: auto;
-    width: 100%;
-    font-family: 'Courier New', monospace;
-    line-height: 1.6;
-    letter-spacing: 0.03125rem;
-    max-height: 100%;
+.log__list {
+  font-size: 0.95rem;
+  color: var(--color-log-text);
+  overflow-y: auto;
+  width: 100%;
+  font-family: 'Courier New', monospace;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  max-height: 100%;
+}
 
-    &::-webkit-scrollbar {
-      width: 0.5rem;
-    }
+.log__list::-webkit-scrollbar {
+  width: 8px;
+}
 
-    &::-webkit-scrollbar-track {
-      background: var(--color-log-scrollbar-track);
-      border-radius: 0.625rem;
-    }
+.log__list::-webkit-scrollbar-track {
+  background: var(--color-log-scrollbar-track);
+  border-radius: 10px;
+}
 
-    &::-webkit-scrollbar-thumb {
-      background: var(--color-log-scrollbar-thumb);
-      border-radius: 0.625rem;
-      transition: none;
+.log__list::-webkit-scrollbar-thumb {
+  background: var(--color-log-scrollbar-thumb);
+  border-radius: 10px;
+  transition: none;
+}
 
-      &:hover {
-        background: var(--color-log-scrollbar-thumb-hover);
-      }
-    }
+.log__list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-log-scrollbar-thumb-hover);
+}
 
-    .last {
-      animation: none;
-      color: var(--color-log-text);
-      font-weight: 600;
-      text-shadow: none;
-    }
+.log__list .last {
+  animation: none;
+  color: var(--color-log-text);
+  font-weight: 600;
+  text-shadow: none;
+}
 
-    .clignotant {
-      animation: none;
-      color: var(--color-log-text);
-    }
-  }
+.log__list .clignotant {
+  animation: none;
+  color: var(--color-log-text);
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(0.9375rem);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
@@ -77,20 +77,5 @@
   }
   50%, 99% {
     opacity: 0.3;
-  }
-}
-
-@media (min-width: 760.5rem) {
-  .log {
-    max-width: 43.75rem;
-    height: 12.5rem;
-    padding: 1.5rem;
-    margin: 2rem auto;
-  }
-}
-
-@media (min-width: 64rem) {
-  .log {
-    padding: 0 2rem;
   }
 }

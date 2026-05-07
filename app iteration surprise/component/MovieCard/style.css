@@ -43,10 +43,7 @@
     &::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      inset: 0;
       background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
       pointer-events: none;
     }
@@ -54,10 +51,7 @@
 
   .movie-card__hover-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(20, 20, 30, 0.9) 100%);
     display: flex;
     align-items: center;
@@ -132,7 +126,7 @@
 .favorite-btn,
 .remove-btn {
   position: absolute;
-  top: 0.75rem;
+  margin-top: 0.75rem;
   padding: 0.5rem 0.625rem;
   border: none;
   background: rgba(0, 0, 0, 0.7);
@@ -146,7 +140,8 @@
 }
 
 .favorite-btn {
-  right: 0.75rem;
+  margin-right: 0.75rem;
+  margin-left: auto;
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
@@ -156,7 +151,7 @@
 }
 
 .remove-btn {
-  right: 3.125rem;
+  margin-right: 3.125rem;
   background: rgba(255, 255, 255, 0.2);
   color: white;
   font-size: 1.2rem;
