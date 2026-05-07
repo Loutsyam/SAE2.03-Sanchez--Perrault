@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.1deb3
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:8889
--- Généré le : ven. 28 mars 2025 à 18:01
--- Version du serveur :  5.7.34
--- Version de PHP : 8.0.8
+-- Hôte : localhost:3306
+-- Généré le : jeu. 07 mai 2026 à 09:06
+-- Version du serveur : 8.0.45-0ubuntu0.24.04.1
+-- Version de PHP : 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,25 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `SAE2.03`
---
-
--- --------------------------------------------------------
-
---
--- Structure de la table `UserProfile`
---
-
-CREATE TABLE `UserProfile` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `avatar` varchar(255) DEFAULT NULL,
-  `min_age` int(11) DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `UserProfile`
+-- Base de données : `SAE203`
 --
 
 -- --------------------------------------------------------
@@ -46,9 +28,9 @@ CREATE TABLE `UserProfile` (
 --
 
 CREATE TABLE `Category` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `Category`
@@ -69,35 +51,45 @@ INSERT INTO `Category` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `Favorite`
+--
+
+CREATE TABLE `Favorite` (
+  `id_profile` int NOT NULL,
+  `id_movie` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `Favorite`
+--
+
+INSERT INTO `Favorite` (`id_profile`, `id_movie`) VALUES
+(5, 128),
+(5, 141),
+(5, 142),
+(6, 128),
+(6, 130),
+(6, 141),
+(6, 142);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `Movie`
 --
 
 CREATE TABLE `Movie` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(255) NOT NULL,
-  `year` int(11) DEFAULT NULL,
-  `length` int(11) DEFAULT NULL,
+  `year` int DEFAULT NULL,
+  `length` int DEFAULT NULL,
   `description` text,
   `director` varchar(255) DEFAULT NULL,
-  `id_category` int(11) DEFAULT NULL,
+  `id_category` int DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `trailer` varchar(255) DEFAULT NULL,
-  `min_age` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
--- --------------------------------------------------------
-
---
--- Structure de la table `Favoris`
---
-
-CREATE TABLE Favorite (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_profile INT NOT NULL,
-    id_movie INT NOT NULL,
-    FOREIGN KEY (id_profile) REFERENCES Profile(id),
-    FOREIGN KEY (id_movie) REFERENCES Movie(id),
-    UNIQUE KEY unique_favorite (id_profile, id_movie)
-); 
+  `min_age` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `Movie`
@@ -163,22 +155,108 @@ INSERT INTO `Movie` (`id`, `name`, `year`, `length`, `description`, `director`, 
 (141, 'Avengers: Endgame', 2019, 181, 'Les Avengers affrontent Thanos une dernière fois.', 'Anthony Russo, Joe Russo', 1, 'Endgame.jpg', 'https://www.youtube.com/embed/TcMBFSGVi1c', 0),
 (142, 'Black Panther', 2018, 134, 'Le roi du Wakanda protège son royaume.', 'Ryan Coogler', 1, 'Panther.jpg', 'https://www.youtube.com/embed/xjDjIWPwcPU', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Repas`
+--
+
+CREATE TABLE `Repas` (
+  `jour` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `entree` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
+  `plat` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
+  `dessert` varchar(256) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `Repas`
+--
+
+INSERT INTO `Repas` (`jour`, `entree`, `plat`, `dessert`) VALUES
+('', '', '', ''),
+('dimanche', 'Velouté aux cèpes', 'Côtes d\'agneau et poêlée forestière', 'Glace colonel'),
+('jeudi', 'Oeuf mimosa', 'escalope de veau et gratin de courgettes', 'Fromage'),
+('lundi', 'Radis beurre', 'Pintade et jardinière de légumes', 'Duo de mousses café chocolat'),
+('mardi', 'Asperges sauce blanche', 'Filet de flétan et riz basmati', 'Ile flottante'),
+('mercredi', 'Rosette de Lyon et radis noir', 'Filet de boeuf et frites', 'Crême brulée'),
+('samedi', 'Carottes rapées', 'Petit salé aux lentilles', 'Salade de fruits'),
+('vendredi', 'Avocat surimi', 'Magret de canard sauce foie gras et patates grasses', 'Indigeste au chocolat');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Repas1`
+--
+
+CREATE TABLE `Repas1` (
+  `semaine` int NOT NULL,
+  `jour` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `entree` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
+  `plat` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
+  `dessert` varchar(256) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `Repas1`
+--
+
+INSERT INTO `Repas1` (`semaine`, `jour`, `entree`, `plat`, `dessert`) VALUES
+(7, 'dimanche', 'Velouté aux cèpes', 'Côtes d\'agneau et poêlée forestière', 'Glace colonel'),
+(4, 'jeudi', 'Oeuf mimosa', 'escalope de veau et gratin de courgettes', 'Fromage'),
+(1, 'lundi', 'Radis beurre', 'Pintade et jardinière de légumes', 'Duo de mousses café chocolat'),
+(2, 'mardi', 'Asperges sauce blanche', 'Filet de flétan et riz basmati', 'Ile flottante'),
+(3, 'mercredi', 'Rosette de Lyon et radis noir', 'Filet de boeuf et frites', 'Crême brulée'),
+(6, 'samedi', 'Carottes rapées', 'Petit salé aux lentilles', 'Salade de fruits'),
+(5, 'vendredi', 'Avocat surimi', 'Magret de canard sauce foie gras et patates grasses', 'Indigeste au chocolat');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `UserProfile`
+--
+
+CREATE TABLE `UserProfile` (
+  `id` int NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `min_age` int DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `UserProfile`
+--
+
+INSERT INTO `UserProfile` (`id`, `name`, `avatar`, `min_age`) VALUES
+(5, 'lu bu ', '', 6),
+(6, 'chat', 'cha-romantique.jpg', 18);
 
 --
 -- Index pour les tables déchargées
 --
---
--- Index pour la table `Category`
---
-ALTER TABLE `Category`
-  ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `Movie`
+-- Index pour la table `Favorite`
 --
-ALTER TABLE `Movie`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_category` (`id_category`);
+ALTER TABLE `Favorite`
+  ADD PRIMARY KEY (`id_profile`,`id_movie`);
+
+--
+-- Index pour la table `Repas`
+--
+ALTER TABLE `Repas`
+  ADD PRIMARY KEY (`jour`);
+
+--
+-- Index pour la table `Repas1`
+--
+ALTER TABLE `Repas1`
+  ADD PRIMARY KEY (`jour`);
+
+--
+-- Index pour la table `UserProfile`
+--
+ALTER TABLE `UserProfile`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -188,29 +266,7 @@ ALTER TABLE `Movie`
 -- AUTO_INCREMENT pour la table `UserProfile`
 --
 ALTER TABLE `UserProfile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT pour la table `Category`
---
-ALTER TABLE `Category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT pour la table `Movie`
---
-ALTER TABLE `Movie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `Movie`
---
-ALTER TABLE `Movie`
-  ADD CONSTRAINT `movie_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `Category` (`id`);
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
