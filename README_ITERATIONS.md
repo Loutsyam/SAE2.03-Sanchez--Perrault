@@ -1,11 +1,13 @@
-# SAE 2.03 - Documentation des Itérations
+# SAE 2.03 - Documentation des Itérations 
 
 ## Vue d'ensemble du projet
 Application web de streaming de films avec profils utilisateur et gestion des favoris.
 
 ---
 
-## Diagramme de la Base de Données 
+## Diagramme de la Base de Données
+
+![Diagramme Entité-Association](screen_looping.png)
 
 ### Cardinalités expliquées :
 - **Category (1) ↔ (n) Movie** : Une catégorie peut contenir plusieurs films, mais chaque film n'appartient qu'à une catégorie (ou aucune).
@@ -65,15 +67,17 @@ function getAllMovies($minAge = null){
 2. **app/component/Movie** : Composant pour afficher chaque film (titre + image)
 3. **app/component/MovieCard** : Affichage en cartes visuel
 
+---
+
 ## ITÉRATION 2 : Ajouter des films (Admin)
 
 ### User Story
 En tant qu'administrateur, je veux ajouter des films dans la base de données.
 
-###  Modifications Base de Données
+### Modifications Base de Données
 Aucune nouvelle table n'a été créée. Utilisation de la table `Movie` existante.
 
-###  Requêtes SQL Utilisées
+### Requêtes SQL Utilisées
 #### Requête : Insérer un nouveau film
 ```sql
 INSERT INTO Movie (name, director, year, length, description, id_category, image, trailer, min_age) 
@@ -126,6 +130,8 @@ function insertMovie($title, $director, $year, $duration, $description, $categor
 3. **admin/index.html** : Handler `C.handlerAddMovie()` gère la soumission
 4. **admin/component/Log** : Affiche le message de confirmation/erreur
 
+---
+
 ## ITÉRATION 3 : Consulter les détails d'un film
 
 ### User Story
@@ -168,6 +174,8 @@ function getMovieDetails($movieId){
 3. **app/component/Movie** : Rendu cliquable avec `onclick="C.handlerDetail(X)"`
 4. **app/component/NavBar** : Bouton pour revenir à la liste
 5. **app/index.html** : Handler `C.handlerDetail()` gère l'affichage
+
+---
 
 ## ITÉRATION 4 : Regrouper les films par catégorie
 
@@ -218,11 +226,11 @@ function readMoviesController(){
     
     // Formatage pour le frontend
     $result = array();
-$categories = array_keys($grouped);
-for ($i = 0; $i < count($categories); $i++) {
-    $category = $categories[$i];
-    $result[] = array('category' => $category, 'movies' => $grouped[$category]);
-}
+    $categories = array_keys($grouped);
+    for ($i = 0; $i < count($categories); $i++) {
+        $category = $categories[$i];
+        $result[] = array('category' => $category, 'movies' => $grouped[$category]);
+    }
     
     return $result;
 }
@@ -236,6 +244,7 @@ for ($i = 0; $i < count($categories); $i++) {
 2. **app/component/Movie** : Composant réutilisé pour chaque film
 3. **app/index.html** : Boucle sur les catégories reçues
 
+---
 
 ## ITÉRATION 5 : Ajouter des profils utilisateur (Admin)
 
@@ -290,23 +299,24 @@ function insertProfile($name, $avatar, $minAge){
 }
 ```
 
-## Flux Frontend
+### Flux Frontend
 
 1. **admin/data/dataProfile.js** : Fonction `DataProfile.add()` envoie les données en POST
 2. **admin/component/ProfileForm** : Formulaire pour saisir les informations du profil
 3. **admin/index.html** : Handler `C.handlerAddProfile()` gère la soumission
 4. **admin/component/Log** : Affiche le message de confirmation/erreur
 
+---
 
 ## ITÉRATION 6 : Sélectionner un profil utilisateur
 
-## User Story
+### User Story
 En tant qu'utilisateur, je veux sélectionner un profil pour personnaliser mon expérience.
 
-## Modifications Base de Données
+### Modifications Base de Données
 Aucune modification - utilisation de la table `UserProfile` existante.
 
-## Requêtes SQL Utilisées
+### Requêtes SQL Utilisées
 
 #### Requête : Récupérer tous les profils
 ```sql
@@ -334,6 +344,7 @@ function getAllProfiles(){
 3. **app/index.html** : Variable globale pour stocker l'ID du profil actif
 4. Gestion du changement de profil avec rechargement des données
 
+---
 
 ## ITÉRATION 7 : Filtrer les films selon l'âge du profil
 
@@ -388,6 +399,7 @@ function getAllMovies($minAge = null){
 2. **app/index.html** : Passe `currentProfile.min_age` lors de l'appel à `requestMovies()`
 3. Filtrage côté serveur pour optimiser la bande passante
 
+---
 
 ## ITÉRATION 8 : Modifier un profil utilisateur (Admin)
 
@@ -439,6 +451,7 @@ function updateProfile($id, $name, $avatar, $minAge){
 3. **admin/component/ProfileUpdate** : Gestion de la modification
 4. **admin/index.html** : Handler pour soumettre les modifications
 
+---
 
 ## ITÉRATION 9 : Ajouter des films aux favoris
 
@@ -547,6 +560,8 @@ function addFavorite($id_profile, $id_movie){
 3. **app/index.html** : Handler pour l'ajout aux favoris
 4. **app/component/Log** : Message de confirmation
 
+---
+
 ## ITÉRATION 10 : Retirer des films des favoris
 
 ### User Story
@@ -628,13 +643,15 @@ function getFavoritesByProfile($id_profile){
 3. **app/index.html** : Handler pour la suppression
 4. **app/component/Log** : Message de confirmation
 
+---
+
 ## Résumé des Cardinalités
 
 | Relation | Cardinalité | Explication |
 |----------|-------------|-------------|
-| Category → Movie | (0, n) | Une catégorie peut avoir plusieurs films et pour faciliter l'integration a la base de données on y mets 0 puisque une categorie peut ne pas avoir de film |
+| Category → Movie | (0, n) | Une catégorie peut avoir plusieurs films et pour faciliter l'intégration à la base de données on y mets 0 puisque une catégorie peut ne pas avoir de film |
 | Movie → Category | (1, n) | Un film n'a qu'une catégorie (ou aucune) |
-| UserProfile → Favorite | (0, n) | Un profil peut avoir plusieurs favoris sans obligatoirement en avoir 1|
+| UserProfile → Favorite | (0, n) | Un profil peut avoir plusieurs favoris sans obligatoirement en avoir 1 |
 | Favorite → UserProfile | (1, 1) | Un favori n'appartient qu'à un profil |
-| Movie → Favorite | (0, n) | Un film peut être en favori chez plusieurs profils sans obligatoirement etre en favoris|
+| Movie → Favorite | (0, n) | Un film peut être en favori chez plusieurs profils sans obligatoirement être en favoris |
 | Favorite → Movie | (1, 1) | Un favori correspond à un seul film |
